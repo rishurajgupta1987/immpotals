@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+
+.theme-background {
+    background-image: url(./assets/images/bck07.jpg);
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+@media only screen and (max-width: 800px) {
+    .theme-background {
+        background-image: url(./assets/images/bck07.jpg);
+        background-repeat: no-repeat;
+        background-size: 1500px 1280px;
+    }
+}
+
+@font-face {
+    font-family: Quicksand-Bold;
+    src: url(./assets/fonts/Quicksand/Quicksand-Bold.ttf);
+}
+
+@font-face {
+    font-family: Quicksand-Light;
+    src: url(./assets/fonts/Quicksand/Quicksand-Light.ttf);
+}
+
+@font-face {
+    font-family: Quicksand-Medium;
+    src: url(./assets/fonts/Quicksand/Quicksand-Medium.ttf);
+}
+
+@font-face {
+    font-family: Quicksand-Regular;
+    src: url(./assets/fonts/Quicksand/Quicksand-Regular.ttf);
+}

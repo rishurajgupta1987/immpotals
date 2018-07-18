@@ -1,0 +1,638 @@
+<div *ngIf="messageSuccess" class="alert alert-success msg alert-dismissible fade in" style="width: 100%;">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <i class="fa fa-check fa-1x"></i>
+  <strong>Success!</strong> Your request is processed successfully.
+</div>
+
+<div *ngIf="messageError" class="alert alert-danger msg alert-dismissible fade in" style="width: 100%;">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <i class="fa fa-times fa-1x"></i>
+  <strong>Error!</strong> Your request has an error.
+</div>
+
+
+<div class="level2Container row" align="center">
+  <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+    <div class="title" align="center" (click)="showNewCustModal()">
+      <i class="fa fa-user-plus"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Existing Customer Container -->
+<form [formGroup]="existingCustomerRequestForm" (ngSubmit)="showAllFeatures(existingCustomerRequestForm.value)" novalidate>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+      <div class="input-group searchContainer">
+        <div class="input-group-addon">
+          <i class="fa fa-mobile"></i>
+        </div>
+        <input type="text" class="form-control" formControlName="seachNumber" placeholder="Enter Mobile Number to Search a Customer..."
+          maxlength="10" minlength="10" data-toggle="tooltip" data-placement="top" title="Enter Mobile Number to Search a Customer...">
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-success" [disabled]="!existingCustomerRequestForm.valid">Go!</button>
+        </span>
+
+      </div>
+      <!-- /input-group -->
+
+      <!--Selected Customer Code-->
+      <div style="color:white;margin-top: 10px;">
+        <span class="selectlabel">Selected Customer:</span>
+        <span class="selectText">{{selectedCustomer.custName}} || {{selectedCustomer.custContact}}</span>
+      </div>
+
+      <div *ngIf="existingCustomerRequestForm.controls['seachNumber'].hasError('pattern')" class="alert alert-danger" style="width:500px;">
+        <i class="fa fa-times-circle" style="color: red;"></i> Customer Mobile Number Accepts Numbers only!
+      </div>
+      <div *ngIf="customerNotFound" class="alert alert-danger" style="width:500px;">
+        <i class="fa fa-times-circle" style="color: red;"></i> Customer Does Not Exist!
+      </div>
+    </div>
+    <!-- /.col-lg-6 -->
+  </div>
+  <!-- /.row -->
+</form>
+
+<!-- ./Existing Customer Container -->
+
+
+
+<!-- Feature Div -->
+<div *ngIf="showFeatureDiv" style="margin-top: 30px;">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+      <ul class="list-inline">
+        <li data-toggle="modal" data-target="#shirtModal">
+          <img src="../../assets/images/icons/shirt.jpg" class="features" title="Shirt Measurement">
+        </li>
+        <li data-toggle="modal" data-target="#pantModal">
+          <img src="../../assets/images/icons/pant.jpg" class="features" title="Pant Measurement">
+        </li>
+        <li data-toggle="modal" data-target="#kudtaModal">
+          <img src="../../assets/images/icons/kudta.jpg" class="features" title="kudta Measurement">
+        </li>
+        <li data-toggle="modal" data-target="#pajamaModal">
+          <img src="../../assets/images/icons/pajama.jpg" class="features" title="Pajama Measurement">
+        </li>
+        <li data-toggle="modal" data-target="#jacketModal">
+          <img src="../../assets/images/icons/jacket.jpg" class="features" title="Jacket Measurement">
+        </li>
+        <li data-toggle="modal" data-target="#coatModal">
+          <img src="../../assets/images/icons/suit.jpg" class="features" title="Coat Measurement">
+        </li>
+        <li data-toggle="modal" data-target="#safari-suitModal">
+          <img src="../../assets/images/icons/safari-suit.jpg" class="features" title="Safari-Suit Measurement">
+        </li>
+      </ul>
+    </div>
+    <!-- /.col-lg-12 -->
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- ./Feature Div -->
+
+
+
+<!--START Modal-Form to Add New Customer Info -->
+<form [formGroup]="newCustomerRequestForm" (ngSubmit)="addNewCustomer(newCustomerRequestForm.value)" novalidate>
+  <div class="modal fade" id="addNewCust" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add New Customer</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="custName" placeholder="Enter Customer Name">
+            <div *ngIf="newCustomerRequestForm.controls['custName'].hasError('required') && !newCustomerRequestForm.controls['custName'].pristine"
+              class="alert alert-danger">
+              <i class="fa fa-times-circle" style="color: red;"></i> Customer Name is Required!
+            </div>
+            <div *ngIf="newCustomerRequestForm.controls['custName'].hasError('pattern')" class="alert alert-danger">
+              <i class="fa fa-times-circle" style="color: red;"></i> Customer Name Accepts Alphabets Only!
+            </div>
+            <div *ngIf="newCustomerRequestForm.controls['custName'].hasError('maxlength')" class="alert alert-danger">
+              <i class="fa fa-times-circle" style="color: red;"></i> Contact Name Accepts 30 digits Only!
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="custContact" placeholder="Enter Mobile Number">
+            <div *ngIf="newCustomerRequestForm.controls['custContact'].hasError('required') && !newCustomerRequestForm.controls['custContact'].pristine"
+              class="alert alert-danger">
+              <i class="fa fa-times-circle" style="color: red;"></i> Contact Number is Required!
+            </div>
+            <div *ngIf="newCustomerRequestForm.controls['custContact'].hasError('pattern')" class="alert alert-danger">
+              <i class="fa fa-times-circle" style="color: red;"></i> Contact Number Accepts Numbers Only!
+            </div>
+            <div *ngIf="newCustomerRequestForm.controls['custContact'].hasError('maxlength')" class="alert alert-danger">
+              <i class="fa fa-times-circle" style="color: red;"></i> Contact Number Accepts 10 digits Only!
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="custAddress" placeholder="Enter Customer Address">
+            <div *ngIf="newCustomerRequestForm.controls['custAddress'].hasError('pattern')" class="alert alert-danger">
+              <i class="fa fa-times-circle" style="color: red;"></i> Customer Address Accepts Alphabets, Numbers and Periods Only!
+            </div>
+            <div *ngIf="newCustomerRequestForm.controls['custAddress'].hasError('maxlength')" class="alert alert-danger">
+              <i class="fa fa-times-circle" style="color: red;"></i> Customer Address Accepts 100 Characters Only!
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success" [disabled]="!newCustomerRequestForm.valid">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!--END Modal-Form to Add New Customer Info-->
+
+
+
+<!--START Shirt Modal-Form-->
+<form [formGroup]="shirtRequestForm" (ngSubmit)="associateShirt(shirtRequestForm.value)" novalidate>
+
+  <div class="modal fade" id="shirtModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Shirt Measurement Scale</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+            <ul class="list-inline">
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="L" placeholder="L" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="C" placeholder="C" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="W" placeholder="W" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="S" placeholder="S" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="A" placeholder="A" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="N" placeholder="N" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="LU" placeholder="LU" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="LL" placeholder="LL" maxlength="5">
+              </li>
+            </ul>
+            <select class="form-control selectControl" formControlName="fit">
+              <option value="select">Select Fit</option>
+              <option value="sf">Slim Fit</option>
+              <option value="cf">Comfort Fit</option>
+            </select>
+
+            <select class="form-control selectControl" formControlName="design">
+              <option value="select">Select Design</option>
+              <option value="p">Piping</option>
+              <option value="s">Simple</option>
+            </select>
+            <div class="form-group" *ngIf='shirtRequestForm.controls["design"].value == "p"'>
+              <input type="color" formControlName="pipingColor" placeholder="Select Color" style="width:535px">
+            </div>
+            <select class="form-control selectControl" formControlName="stitch">
+              <option value="select">Select Stitch</option>
+              <option value="ss">Single Stitch</option>
+              <option value="ds">Double Stitch</option>
+            </select>
+            <select class="form-control selectControl" formControlName="button">
+              <option value="select">Select Button Style</option>
+              <option value="bc">Button Contrast</option>
+              <option value="bs">Button Same</option>
+            </select>
+          </div>
+          <div align="right">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" [disabled]="!shirtRequestForm.valid">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</form>
+<!--END Shirt Modal-Form-->
+
+
+
+<!--START Pant Modal-Form-->
+<form [formGroup]="pantRequestForm" (ngSubmit)="associatePant(pantRequestForm.value)" novalidate>
+
+  <div class="modal fade" id="pantModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Trouser Measurement Scale</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+            <ul class="list-inline">
+              <li>
+                <input type="text" class="form-control pantNumberBox" formControlName="L" placeholder="L" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control pantNumberBox" formControlName="W" placeholder="W" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control pantNumberBox" formControlName="H" placeholder="H" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control pantNumberBox" formControlName="IL" placeholder="IL" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control pantNumberBox" formControlName="B" placeholder="B" maxlength="5">
+              </li>
+            </ul>
+            <select class="form-control selectControl" formControlName="fit">
+              <option value="select">Select Fit</option>
+              <option value="sf">Slim Fit</option>
+              <option value="cf">Comfort Fit</option>
+            </select>
+            <select class="form-control selectControl" formControlName="pocketType">
+              <option value="select">Select Pocket Type</option>
+              <option value="cp">Cross Pocket</option>
+              <option value="sp">Straight Pocket</option>
+            </select>
+            <select class="form-control selectControl" formControlName="plateType">
+              <option value="select">Select Plate Type</option>
+              <option value="wp">Without Plate</option>
+              <option value="sp">Single Plate</option>
+              <option value="dp">Double Place</option>
+            </select>
+            <select class="form-control selectControl" formControlName="backPocket">
+              <option value="select">Select Back Pocket</option>
+              <option value="sp">Single Pocket</option>
+              <option value="dp">Double Pocket</option>
+            </select>
+          </div>
+          <div align="right">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" [disabled]="!pantRequestForm.valid">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</form>
+<!--End Pant Modal-Form-->
+
+
+<!--START KUDTA Modal-Form-->
+<form [formGroup]="kudtaRequestForm" (ngSubmit)="associateKurta(kudtaRequestForm.value)" novalidate>
+
+  <div class="modal fade" id="kudtaModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Kudta Measurement Scale</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+            <ul class="list-inline">
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="L" placeholder="L" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="C" placeholder="C" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="W" placeholder="W" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="S" placeholder="S" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="A" placeholder="A" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="N" placeholder="N" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="kera" placeholder="Kera" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="kamar" placeholder="Kamar" maxlength="5">
+              </li>
+            </ul>
+            <select class="form-control selectControl" formControlName="collar">
+              <option value="select">Select Collar</option>
+              <option value="sc">Simple Collar</option>
+              <option value="dc">Designer Collar</option>
+            </select>
+
+            <select class="form-control selectControl" formControlName="ban">
+              <option value="select">Select Ban</option>
+              <option value="db">Double Ban</option>
+              <option value="fp">Foot Pipping</option>
+              <option value="b">Baitva</option>
+            </select>
+
+            <select class="form-control selectControl" formControlName="pocket">
+              <option value="select">Select Pocket</option>
+              <option value="s">Side</option>
+              <option value="n">None</option>
+            </select>
+
+          </div>
+          <div align="right">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" [disabled]="!kudtaRequestForm.valid">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</form>
+<!--END KP Modal-Form-->
+
+
+
+<!--START Pajama Modal-Form-->
+<form [formGroup]="pajamaRequestForm" (ngSubmit)="associatePajama(pajamaRequestForm.value)" novalidate>
+
+  <div class="modal fade" id="pajamaModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Pajama Measurement Scale</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+            <select class="form-control selectControl" formControlName="type">
+              <option value="select">Select Pajama Type</option>
+              <option value="sl">Salwar</option>
+              <option value="pcp">Pant Cut Pajama</option>
+              <option value="pp">Pant Pajama</option>
+            </select>
+            <select class="form-control selectControl" *ngIf='pajamaRequestForm.controls["type"].value == "pcp"' formControlName="pocket">
+              <option value="select">Select Pocket</option>
+              <option value="y">Yes</option>
+              <option value="n">No</option>
+            </select>
+            <ul class="list-inline">
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="L" placeholder="L" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="B" placeholder="B" maxlength="5">
+              </li>
+              <li *ngIf='pajamaRequestForm.controls["type"].value == "pp"'>
+                <input type="text" class="form-control numberBox" formControlName="W" placeholder="W" maxlength="5">
+              </li>
+              <li *ngIf='pajamaRequestForm.controls["type"].value == "pp"'>
+                <input type="text" class="form-control numberBox" formControlName="H" placeholder="H" maxlength="5">
+              </li>
+              <li *ngIf='pajamaRequestForm.controls["type"].value == "pp"'>
+                <input type="text" class="form-control numberBox" formControlName="IL" placeholder="IL" maxlength="5">
+              </li>
+            </ul>
+          </div>
+          <div align="right">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" [disabled]="!pajamaRequestForm.valid">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</form>
+<!--END Pajama Modal-Form-->
+
+
+<!--START Jacket Modal-Form-->
+<form [formGroup]="jacketRequestForm" (ngSubmit)="associateJacket(jacketRequestForm.value)" novalidate>
+
+    <div class="modal fade" id="jacketModal" role="dialog">
+      <div class="modal-dialog">
+  
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Jacket Measurement Scale</h4>
+          </div>
+          <div class="modal-body">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+              <select class="form-control selectControl" formControlName="type">
+                <option value="select">Select WaistCoat Type</option>
+                <option value="vc">V-Cut</option>
+                <option value="bc">Ban Collar</option>
+              </select>
+              <select class="form-control selectControl" formControlName="pattern">
+                <option value="select">Select Pattern</option>
+                <option value="s">Simple</option>
+                <option value="d">Designer</option>
+              </select>
+            </div>
+            <div align="right">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success" [disabled]="!jacketRequestForm.valid">Save</button>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+    </div>
+  </form>
+  <!--END Jacket Modal-Form-->
+  
+  
+
+<!--START Coat Modal-Form-->
+<form [formGroup]="coatRequestForm" (ngSubmit)="associateCoat(coatRequestForm.value)" novalidate>
+
+  <!-- Modal-Suit Modal-->
+  <div class="modal fade" id="coatModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Coat Measurement Scale</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+            <ul class="list-inline">
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="L" placeholder="L" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="C" placeholder="C" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="W" placeholder="W" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="S" placeholder="S" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="A" placeholder="A" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="N" placeholder="N" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="B" placeholder="B" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="LB" placeholder="LB" maxlength="5">
+              </li>
+            </ul>
+            <select class="form-control selectControl" formControlName="type">
+              <option value="select">Select Type</option>
+              <option value="tp">Two Piece</option>
+              <option value="thp">Three Piece</option>
+            </select>
+            <select class="form-control selectControl" formControlName="design">
+              <option value="select">Select Design</option>
+              <option value="f">Formal</option>
+              <option value="d">Designer</option>
+            </select>
+            <select class="form-control selectControl" formControlName="collar">
+              <option value="select">Select Collar</option>
+              <option value="rs">Round Style</option>
+              <option value="ts">Texido Style</option>
+            </select>
+            <select class="form-control selectControl" formControlName="basket">
+              <option value="select">Select Basket</option>
+              <option value="bc">Single Breast</option>
+              <option value="bs">Double Breast</option>
+            </select>
+            <select class="form-control selectControl" formControlName="button">
+              <option value="select">Select Button</option>
+              <option value="sb">Single Button</option>
+              <option value="db">Double Button</option>
+            </select>
+            <select class="form-control selectControl" formControlName="cut">
+              <option value="select">Select Cut Type</option>
+              <option value="sc">Single Cut</option>
+              <option value="dc">Double Cut</option>
+            </select>
+          </div>
+          <div align="right">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" [disabled]="!coatRequestForm.valid">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</form>
+<!--END Coat Modal-Form-->
+
+
+<!--START Safari Suit Modal-Form-->
+<form [formGroup]="safariRequestForm" (ngSubmit)="associateSafari(safariRequestForm.value)" novalidate>
+  <!-- Modal-Safari Suit Modal-->
+  <div class="modal fade" id="safari-suitModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Safari Suit Measurement Scale</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+            <ul class="list-inline">
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="L" placeholder="L" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="C" placeholder="C" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="W" placeholder="W" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="S" placeholder="S" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="A" placeholder="A" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="N" placeholder="N" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="B" placeholder="B" maxlength="5">
+              </li>
+              <li>
+                <input type="text" class="form-control numberBox" formControlName="LB" placeholder="LB" maxlength="5">
+              </li>
+            </ul>
+            <select class="form-control selectControl" formControlName="type">
+              <option value="select">Select Type</option>
+              <option value="tp">Two Piece</option>
+              <option value="thp">Three Piece</option>
+            </select>
+            <select class="form-control selectControl" formControlName="design">
+              <option value="select">Select Design</option>
+              <option value="f">Formal</option>
+              <option value="d">Designer</option>
+            </select>
+            <select class="form-control selectControl" formControlName="collar">
+              <option value="select">Select Collar</option>
+              <option value="rs">Round Style</option>
+              <option value="ts">Texido Style</option>
+            </select>
+            <select class="form-control selectControl" formControlName="basket">
+              <option value="select">Select Basket</option>
+              <option value="bc">Single Breast</option>
+              <option value="bs">Double Breast</option>
+            </select>
+            <select class="form-control selectControl" formControlName="button">
+              <option value="select">Select Button</option>
+              <option value="sb">Single Button</option>
+              <option value="db">Double Button</option>
+            </select>
+            <select class="form-control selectControl" formControlName="cut">
+              <option value="select">Select Cut Type</option>
+              <option value="sc">Single Cut</option>
+              <option value="dc">Double Cut</option>
+            </select>
+          </div>
+          <div align="right">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" [disabled]="!safariRequestForm.valid">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</form>
+<!--END Safari Suit Modal-Form-->

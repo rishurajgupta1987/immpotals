@@ -1,0 +1,43 @@
+@media (min-width: 1280px) {
+    .orderTable {
+        margin-top: 5%;
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+    .msg {
+        font-family: Quicksand-Bold;
+        border: 1px solid #ffffff;
+        margin-top: 10%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .orderTable {
+        margin-top: 20%;
+    }
+    .msg {
+        font-family: Quicksand-Bold;
+        border: 1px solid #ffffff;
+        margin-top: 10%;
+    }
+}
+
+th {
+    color: #ffffff !important;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+    padding: 10px 10px;
+    border-bottom: 1px solid #ffffff;
+}
+
+.modal-content {
+    background: transparent !important;
+    border: 1px solid #ffffff;
+    margin-top: 20%;
+    color: #ffffff;
+}
+
+.modal-title {
+    color: #ffffff !important;
+}

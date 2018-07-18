@@ -1,0 +1,86 @@
+.title {
+    font-size: 100px;
+    padding: 10px;
+    color: #ffffff;
+    width: 300px;
+    cursor: pointer;
+}
+
+.title:hover {
+    font-size: 105px;
+    padding: 10px;
+    color: #ffffff;
+    width: 300px;
+    cursor: pointer;
+    color: greenyellow;
+}
+
+
+.searchContainer {
+    margin-top: 50px;
+    width: 500px;
+}
+
+.level2Container {
+    margin-top: 10%;
+}
+
+.modal-content {
+    background: transparent !important;
+    border: 1px solid #ffffff;
+    margin-top: 20%;
+}
+
+.modal-title {
+    color: #ffffff !important;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+.features {
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+img:hover {
+    transform: scale(1.2);
+}
+
+.selectControl {
+    margin: 15px 0px 15px 0px;
+}
+
+.msg {
+    font-family: Quicksand-Bold;
+    border: 1px solid #ffffff;
+    margin-top: 4%;
+}
+
+.numberBox{
+    width: 100px;
+}
+
+.pantNumberBox{
+    width: 75px;
+}
+
+.selectlabel{
+    font-family: Quicksand-Bold;
+}
+.selectText{
+    font-family: Quicksand-Regular;
+}
+
+@media only screen and (max-width: 800px) {
+    .level2Container {
+        margin-top: 25%;
+    }
+    .msg {
+        font-family: Quicksand-Bold;
+        border: 1px solid #ffffff;
+        margin-top: 10%;
+    }
+}

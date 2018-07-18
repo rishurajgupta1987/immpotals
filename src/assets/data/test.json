@@ -1,0 +1,16 @@
+[
+    {
+        "orderId": "",
+        "custName": "",
+        "custContact": "",
+        "custAddress": "",
+        "custSubscriptions": {
+            "shirt": {},
+            "pant": {},
+            "coat": {},
+            "kudtapajama": {},
+            "safarisuit": {}
+        }
+    }
+]
+

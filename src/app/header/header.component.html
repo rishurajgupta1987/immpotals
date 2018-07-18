@@ -1,0 +1,204 @@
+<div *ngIf="messageSuccess" class="alert alert-success msg alert-dismissible fade in" style="width: 100%;">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <i class="fa fa-check fa-1x" aria-hidden="true"></i>
+  <strong>Success!</strong> Your request is processed successfully.
+</div>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+        aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" routerLink="bodyView">Gupta Tailor &amp; Drappers</a>
+      <a class="navbar-brand" (click)="applyDefaultValues()">
+        <i class="fa fa-shopping-cart cart" data-toggle="tooltip" data-placement="top" title="Create New Order"></i>
+      </a>
+      <a class="navbar-brand" routerLink="ordersView">
+        <i class="fa fa-list-ul cart" style="padding-top: 1px" data-toggle="tooltip" data-placement="top" title="View Orders"></i>
+      </a>
+
+      <a class="navbar-brand" (click)="refresh()">
+        <i class="fa fa-refresh cart" style="padding-top: 1px" data-toggle="tooltip" data-placement="top" title="Refresh"></i>
+      </a>
+
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="#">Total Customers: {{totalCustomers}}</a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Customer Information Management
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="drop-option">
+              <a href="#">How to use</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
+</nav>
+
+
+
+<!--START Order Modal-Form-->
+<form [formGroup]="orderRequestForm" (ngSubmit)="createOrder(orderRequestForm.value)" novalidate>
+  <div class="modal fade" id="orderModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Create New Order</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-odnoklassniki-square"></i>
+                </div>
+                <input type="text" class="form-control" formControlName="orderNumber" readonly>
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control" id="bookingDate" readonly formControlName="bookingDate">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-mobile"></i>
+                </div>
+                <input type="text" class="form-control" formControlName="custContact" (blur)="validateCustomer()" placeholder="Enter Customer Contact..."
+                  maxlength="10">
+              </div>
+              <div *ngIf="customerStatus" class="alert alert-danger">
+                <i class="fa fa-times-circle" style="color: red;" aria-hidden="true"></i> Customer does not exist, Please add first!
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="text" class="form-control" readonly formControlName="custName" placeholder="Customer Name">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control" id="bookingDueDate" formControlName="bookingDueDate" placeholder="Enter Due Date..."
+                  autocomplete="off">
+                <input type="hidden" id="dueDate">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-inr"></i>
+                </div>
+                <input type="text" class="form-control" formControlName="totalAmount" placeholder="Enter Total Amount...">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-inr"></i>
+                </div>
+                <input type="text" class="form-control" formControlName="advanceAmount" placeholder="Enter Advance Amount..." (keyup)="calcBalance()">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-inr"></i>
+                </div>
+                <input type="text" class="form-control" formControlName="balanceAmount" placeholder="Balance Amount..." readonly>
+              </div>
+              <div class="input-group">
+                <label class="checkbox-inline">
+                  K.P.
+                  <select class="form-control select-inline" formControlName="kpQty">
+                    <option value="">Qty</option>
+                    <option *ngFor="let qty of Qty" value="{{qty}}">{{qty}}</option>
+                  </select>
+                </label>
+
+                <label class="checkbox-inline">
+                  Pant
+                  <select class="form-control select-inline" formControlName="pantQty">
+                    <option value="">Qty</option>
+                    <option *ngFor="let qty of Qty" value="{{qty}}">{{qty}}</option>
+                  </select>
+                </label>
+
+                <label class="checkbox-inline">
+                  Shirt
+                  <select class="form-control select-inline" formControlName="shirtQty">
+                    <option value="">Qty</option>
+                    <option *ngFor="let qty of Qty" value="{{qty}}">{{qty}}</option>
+                  </select>
+                </label>
+
+                <label class="checkbox-inline">
+                  Coat
+                  <select class="form-control select-inline" formControlName="coatQty">
+                    <option value="">Qty</option>
+
+                    <option *ngFor="let qty of Qty" value="{{qty}}">{{qty}}</option>
+                  </select>
+                </label>
+
+                <label class="checkbox-inline select-inline">
+                  Jacket
+                  <select class="form-control" formControlName="jacketQty">
+                    <option value="">Qty</option>
+                    <option *ngFor="let qty of Qty" value="{{qty}}">{{qty}}</option>
+                  </select>
+                </label>
+
+                <label class="checkbox-inline">
+                  Suit
+                  <select class="form-control select-inline" formControlName="suitQty">
+                    <option value="">Qty</option>
+                    <option *ngFor="let qty of Qty" value="{{qty}}">{{qty}}</option>
+                  </select>
+                </label>
+
+                <label class="checkbox-inline">
+                  Safari
+                  <select class="form-control select-inline" formControlName="safariQty">
+                    <option value="">Qty</option>
+
+                    <option *ngFor="let qty of Qty" value="{{qty}}">{{qty}}</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <!-- /.col-lg-6 -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="reset()">Close</button>
+          <button type="submit" class="btn btn-success" [disabled]="!orderRequestForm.valid">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!--END Shirt Modal-Form-->

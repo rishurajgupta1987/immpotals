@@ -1,0 +1,34 @@
+[
+    {
+        "advanceAmount": "55",
+        "balanceAmount": 2445,
+        "bookingDate": "5/30/2018",
+        "bookingDueDate": "05/16/2018",
+        "coat": null,
+        "custContact": "8095801705",
+        "jacket": null,
+        "kp": true,
+        "orderNumber": "16807",
+        "pant": true,
+        "safari": null,
+        "shirt": true,
+        "suit": null,
+        "totalAmount": "2500"
+    },
+    {
+        "advanceAmount": "55",
+        "balanceAmount": 2445,
+        "bookingDate": "5/30/2018",
+        "bookingDueDate": "05/16/2018",
+        "coat": null,
+        "custContact": "8095801705",
+        "jacket": null,
+        "kp": true,
+        "orderNumber": "52548",
+        "pant": true,
+        "safari": null,
+        "shirt": true,
+        "suit": null,
+        "totalAmount": "2500"
+    }
+]
